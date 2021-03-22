@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include('partials/head') %>
+      
+    </head>
+<body>
+    <header>
+       
+    </header>
+
+<h2>Currency Converter </h2>
+<%- include('partials/header') %>
+<div>
+    <form action="/convert"  method="POST">
+        <label for="fname">Date:</label><br> 
+        <select id="reference_date" name="reference_date">
+           <% const Date = ["2020-03-26","2020-03-25","2020-03-24","2020-03-23","2020-03-20","2020-02-07","2020-02-06","2020-02-05","2020-02-04","2020-02-03","2020-01-31","2020-01-30","2020-01-29","2020-01-28"]; %>
+            <% Date.forEach( time => { %>
+                <option value="<%= time %>"> <%= time %></option>
+            <% }) %>
+          
+        </select>
+        
+        <label for="amount">Amount:</label><br>
+        <input type="text" id="amount" name="amount" placeholder="amount .."><br>
+        <label for="src_currency">Source Currency : </label><br>
+        <input type="text" id="src_currency" name="src_currency" placeholder="Source Cur"><br>
+        <label for="dest_currency">Source Currency : </label><br>
+        <input type="text" id="dest_currency" name="dest_currency" placeholder=" Des Currency .."><br>
+        <button>Change Currency</button>
+    </form>
+</div>
+<div>
+    <h3>Amount :<%= age %></h3>
+    <h3>Des Currency:<%= name %></h3>
+    
+</div>
+<footer>
+    
+</footer>
+</body>
+</html>

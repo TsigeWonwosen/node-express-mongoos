@@ -1,0 +1,24 @@
+<h1>Node Express Monogoos - (express-handlebars) </h1>
+</br>
+
+
+<table>
+	
+		<th>Title</th>
+		<th>Description</th>
+		<th>Date</th>
+		<th>Action</th>
+	
+	<tbody>
+		
+		{{#each data}}
+		<tr>
+		<td>{{this.title}}</td>
+		<td>{{this.description}}</td>
+		<td>{{this.date}}</td>
+		<td><a href="/posts/delete/{{this._id}}"><button>Delete</button></a> | <a href="/posts/update/{{this._id}}"><button class = "update">Update</button></a></td>
+		</tr>
+		{{/each}}
+		
+	</tbody>
+</table>

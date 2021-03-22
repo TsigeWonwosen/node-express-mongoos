@@ -1,0 +1,33 @@
+<nav>
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link active" href="/">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin">Admin</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/posts/addpost">Addpost</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="false">Contact</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/auth/register" >Register</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/convert" >Currency Converter</a>
+  </li>
+    {{#if user }}
+   
+     <form action="/auth/logout?_method=DELETE" method="POST">
+       <button type="submit">Log Out  <h6>{{user}}</h6> </button>
+     </form>
+     {{else}}
+
+  <li class="nav-item">
+    <a class="nav-link" href="/auth/login" >Login</a>
+  </li>
+    {{/if}}   
+  
+</ul>
