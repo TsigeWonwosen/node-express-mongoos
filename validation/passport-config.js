@@ -16,7 +16,6 @@ passport.use(new LocalStrategy({usernameField:'email'},
             }
 
         try{
-            // const isValid = validPassword(password, user.hash, user.salt);
             const isValid = bcrypt.compare(password,userNew.password);
             if (isValid) {
                 return done(null, userNew);
@@ -27,7 +26,8 @@ passport.use(new LocalStrategy({usernameField:'email'},
         catch(err) {   
             done(err);
         }
-}));
+    }));
+    
 passport.serializeUser(function(userNew, done) {
     done(null, userNew.id);
 });

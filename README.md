@@ -1,4 +1,4 @@
-## Node Express And Mongoose and JWT
+## Node Express And Mongoose and JWT front End - view engine - EJS
 
 ### How to install
 

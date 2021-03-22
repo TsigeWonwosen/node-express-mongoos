@@ -19,6 +19,7 @@ router.get('/addpost',(req,res)=>{
 	 res.render('add-post')
 	// res.json({user:req.user})
 })
+
 // Create (Insert) post in to db
 router.post('/add',verifyToken,function (req, res) {
 	try{
@@ -45,6 +46,8 @@ const PostUpdate = await PostOnDb.findOne({_id:req.params.id});
 // res.json(singlePOst)
 	res.render('update-post',{data:PostUpdate})
 })
+
+
 //Update post
 router.post('/update', async function (req, res) {
 			
