@@ -9,6 +9,7 @@ const session = require('express-session');
 const path = require('path');
 
 const PORT = process.env.PORT || 5000;
+
 const Posts = require('./route/posts');
 const Admin = require('./route/admin');
 const AuthRoute = require('./route/auth');
@@ -18,8 +19,8 @@ const MethodOverRide = require('method-override');
 require('./models/connection');
 
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(MethodOverRide('_method'));
 
 const initializePassport = require('./validation/passport-config');
@@ -51,12 +52,27 @@ app.engine(
 );
 
 app.use(express.static(path.join(__dirname, '/public')));
+
 //Read post from Db
 app.get('/', async (req, res) => {
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
   try {
-    const totalPost = await PostOnDb.find();
+    let totalPost = [];
+    totalPost = await PostOnDb.find();
 
-    res.render('main', { data: totalPost });
+    let NewTotalPOst = totalPost.map((post) => ({
+      id: post._id,
+      title: post.title,
+      description: post.description,
+      date: post.date.toLocaleDateString('en-US', options),
+    }));
+
+    res.render('main', { data: NewTotalPOst });
   } catch (e) {
     res.status(500).json({ data: e });
   }
@@ -91,6 +107,10 @@ app.use('/posts', Posts);
 app.use('/admin', Admin);
 app.use('/auth', AuthRoute);
 
+app.get('*', (req, res) => {
+  console.log(req.params);
+  res.render('404', { message: req.params });
+});
 app.listen(PORT, () => {
   console.log('Server is connected!!!');
 });
