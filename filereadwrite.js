@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const os = require('os')
 
 async function fileReadAndWrite(text) {
   try {
@@ -11,5 +12,6 @@ async function fileReadAndWrite(text) {
     console.log(error);
   }
 }
-
-fileReadAndWrite('It works Now .').then((data) => console.log(data));
+console.log(os.userInfo());
+console.log(os.uptime()/(60 * 60));
+// fileReadAndWrite('It works Now .').then((data) => console.log(data));
