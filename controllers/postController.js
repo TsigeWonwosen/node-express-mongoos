@@ -6,6 +6,30 @@ const Log = (req, res, next) => {
   next();
 };
 
+const getPosts = async (req, res) => {
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  try {
+    let totalPost = [];
+    totalPost = await PostOnDb.find();
+
+    let NewTotalPOst = totalPost.map((post) => ({
+      _id: post._id,
+      title: post.title,
+      description: post.description,
+      date: post.date.toLocaleDateString('en-US', options),
+    }));
+
+    res.render('main', { data: NewTotalPOst });
+  } catch (e) {
+    res.status(500).json({ data: e });
+  }
+};
+
 const Add = function (req, res) {
   try {
     const { title, description } = req.body;
@@ -62,6 +86,7 @@ const deletePost = (req, res) => {
   }
 };
 module.exports = {
+  getPosts,
   Log,
   Add,
   addPost,
