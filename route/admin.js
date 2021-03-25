@@ -1,6 +1,8 @@
 const express = require('express');
 const router= express.Router()
 
+const {getIt ,getAdmin} = require('../controllers/adminController')
+
 // middleware that is specific to this router
 router.use(function timeLog (req, res, next) {
   console.log(' Admin are accessing  ...')
@@ -8,13 +10,9 @@ router.use(function timeLog (req, res, next) {
 })
 
 // define the home page route
-router.get('/it', function (req, res) {
-  res.render('admin', { title: 'Admin - IT page ' })
-})
+router.get('/it', getIt)
 
 // define the about route
-router.get('/', function (req, res) {
-  res.render('admin',{title:'Admin Page'})
-})
+router.get('/', getAdmin)
 
 module.exports = router

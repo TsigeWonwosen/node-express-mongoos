@@ -1,8 +1,17 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const router = express.Router();
-const PostOnDb = require('../models/Post');
+const mongoose = require('mongoose');
+
 const verifyToken = require('../validation/verifywebtoken');
+
+const {
+  Log,
+  Add,
+  addPost,
+  getUpdatePost,
+  postUpdatePost,
+  deletePost,
+} = require('../controllers/postController.js');
 
 // middleware that is specific to this router
 mongoose.set('useNewUrlParser', true);
@@ -10,69 +19,19 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-router.use('/addpost', function timeLog(req, res, next) {
-  console.log('Time: ', Date.now());
-  next();
-});
+router.use('/addpost', Log);
 
-router.get('/addpost', (req, res) => {
-  res.render('add-post');
-  // res.json({user:req.user})
-});
+router.get('/addpost', addPost);
 
 // Create (Insert) post in to db
-router.post('/add', verifyToken, function (req, res) {
-  try {
-    const { title, description } = req.body;
-    const newpost = {
-      title,
-      description,
-    };
-    const post12 = new PostOnDb(newpost);
+router.post('/add', verifyToken, Add);
 
-    post12.save();
-    res.redirect('/');
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});
-
-router.get('/update/:id', async (req, res) => {
-  const PostUpdate = await PostOnDb.findOne({ _id: req.params.id });
-  // res.json(singlePOst)
-  res.render('update-post', { data: PostUpdate });
-});
+router.get('/update/:id', getUpdatePost);
 
 //Update post
-router.post('/update', async function (req, res) {
-  const { _id, title, description } = req.body;
-  try {
-    const singlePOst = await PostOnDb.findById(_id);
-
-    singlePOst.title = title;
-    singlePOst.description = description;
-    singlePOst.date = Date.now();
-
-    const saved = await singlePOst.save();
-
-    res.redirect('/');
-    // res.json(singlePOst)
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});
+router.post('/update', postUpdatePost);
 
 //Delete Post
-router.get('/delete/:id', (req, res) => {
-  try {
-    // const _id = req.params;
-
-    PostOnDb.findByIdAndRemove(req.params.id).exec();
-    res.redirect('/');
-    // res.json({Id : req.params.id})
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});
+router.get('/delete/:id', deletePost);
 
 module.exports = router;
